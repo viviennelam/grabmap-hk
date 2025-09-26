@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-arcade-pink/10 to-arcade-blue/10 min-h-screen;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-arcade-pink hover:bg-arcade-pink/90 text-white font-semibold py-2 px-4 rounded-full transition-all duration-200 transform hover:scale-105;
+  }
+  
+  .btn-secondary {
+    @apply bg-arcade-blue hover:bg-arcade-blue/90 text-white font-semibold py-2 px-4 rounded-full transition-all duration-200 transform hover:scale-105;
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:border-arcade-pink focus:outline-none transition-colors duration-200;
+  }
+  
+  .search-bar {
+    @apply bg-white rounded-full shadow-md px-6 py-3 flex items-center space-x-3;
+  }
+}
