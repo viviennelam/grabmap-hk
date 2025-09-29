@@ -6,6 +6,22 @@ import { demoMachines } from '../data/demoMachines'
 import WinsList from '../components/WinsList'
 import ShareWinForm from '../components/ShareWinForm'
 
+// Helper function to get emoji for prizes
+function getPrizeEmoji(prize) {
+  const lowerPrize = prize.toLowerCase()
+  if (lowerPrize.includes('kirby')) return '⭐'
+  if (lowerPrize.includes('labubu')) return '👹'
+  if (lowerPrize.includes('hello kitty') || lowerPrize.includes('sanrio') || lowerPrize.includes('my melody') || lowerPrize.includes('kuromi')) return '🎀'
+  if (lowerPrize.includes('pokemon') || lowerPrize.includes('pikachu')) return '⚡'
+  if (lowerPrize.includes('disney') || lowerPrize.includes('mickey') || lowerPrize.includes('minnie')) return '🏰'
+  if (lowerPrize.includes('totoro') || lowerPrize.includes('ghibli')) return '🌿'
+  if (lowerPrize.includes('anime') || lowerPrize.includes('demon slayer') || lowerPrize.includes('naruto')) return '⚔️'
+  if (lowerPrize.includes('bear') || lowerPrize.includes('teddy')) return '🧸'
+  if (lowerPrize.includes('cat') || lowerPrize.includes('kitty')) return '🐱'
+  if (lowerPrize.includes('unicorn')) return '🦄'
+  return '🎁'
+}
+
 export default function MachineDetailPage() {
   const { id } = useParams()
   const [machine, setMachine] = useState(null)
@@ -51,8 +67,8 @@ export default function MachineDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="text-4xl mb-4">🎮</div>
-          <p className="text-gray-600">Loading machine details...</p>
+          <div className="text-6xl mb-4">🎮</div>
+          <p className="text-retro-text-secondary text-lg">Loading machine details...</p>
         </div>
       </div>
     )
@@ -62,8 +78,8 @@ export default function MachineDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="text-4xl mb-4">😵</div>
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">Machine not found</h2>
+          <div className="text-6xl mb-4">😵</div>
+          <h2 className="text-xl font-semibold text-retro-text mb-4">Machine not found</h2>
           <Link to="/" className="btn-primary">
             Back to Home
           </Link>
@@ -73,13 +89,13 @@ export default function MachineDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white shadow-sm sticky top-0 z-10">
+      <div className="bg-retro-card border-b border-retro-hover sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <Link 
             to="/" 
-            className="inline-flex items-center text-arcade-pink hover:text-arcade-pink/80 transition-colors duration-200"
+            className="inline-flex items-center text-retro-pink hover:text-retro-blue transition-colors duration-200"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Machines
@@ -92,65 +108,64 @@ export default function MachineDetailPage() {
           {/* Machine Info */}
           <div className="lg:col-span-2 space-y-6">
             {/* Main Info Card */}
-            <div className="card p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <img 
-                    src={machine.photo_url} 
-                    alt={machine.name_en}
-                    className="w-full h-64 object-cover rounded-xl"
-                  />
+            <div className="retro-card p-6">
+              <div className="space-y-4">
+                <div className="text-center">
+                  <div className="text-6xl mb-4">🎮</div>
                 </div>
-                
-                <div className="space-y-4">
-                  <div>
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">{machine.name_en}</h1>
-                    <p className="text-xl text-gray-600">{machine.name_zh}</p>
-                  </div>
+                <div className="text-center">
+                  <h1 className="text-3xl font-bold text-retro-text mb-2">{machine.name_en}</h1>
+                  <p className="text-xl text-retro-text-secondary mb-4">{machine.name_zh}</p>
                   
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center bg-arcade-yellow/20 text-arcade-yellow px-3 py-1 rounded-full">
+                  <div className="flex items-center justify-center space-x-4 mb-4">
+                    <div className="flex items-center bg-retro-green/20 text-retro-green px-3 py-1 rounded-lg border border-retro-green/30">
                       <Star className="w-4 h-4 mr-1 fill-current" />
                       <span className="font-semibold">{machine.fairness_rating}</span>
                     </div>
-                    <span className="text-sm text-gray-500">Fairness Rating</span>
+                    <span className="text-sm text-retro-text-secondary">Fairness Rating</span>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-center text-retro-text">
+                    <MapPin className="w-5 h-5 mr-2 text-retro-blue" />
+                    <div className="text-center">
+                      <p className="font-medium">{machine.district}</p>
+                      <p className="text-sm text-retro-text-secondary">{machine.address}</p>
+                    </div>
                   </div>
                   
-                  <div className="space-y-2">
-                    <div className="flex items-center text-gray-700">
-                      <MapPin className="w-5 h-5 mr-2 text-arcade-blue" />
-                      <div>
-                        <p className="font-medium">{machine.district}</p>
-                        <p className="text-sm text-gray-500">{machine.address}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center text-gray-700">
-                      <Clock className="w-5 h-5 mr-2 text-arcade-purple" />
-                      <span className="text-sm">
-                        Added {new Date(machine.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-center text-retro-text">
+                    <Clock className="w-5 h-5 mr-2 text-retro-purple" />
+                    <span className="text-sm text-retro-text-secondary">
+                      Added {new Date(machine.created_at).toLocaleDateString()}
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
             
             {/* Prizes */}
-            <div className="card p-6">
-              <h2 className="font-bold text-xl text-gray-800 mb-4 flex items-center">
-                <Gift className="w-5 h-5 mr-2 text-arcade-orange" />
+            <div className="retro-card p-6">
+              <h2 className="font-bold text-xl text-retro-text mb-4 flex items-center">
+                <Gift className="w-5 h-5 mr-2 text-retro-pink" />
                 Available Prizes
               </h2>
-              <div className="flex flex-wrap gap-2">
-                {machine.prizes_array.map((prize, index) => (
-                  <span 
-                    key={index}
-                    className="bg-arcade-purple/20 text-arcade-purple px-3 py-2 rounded-full font-medium"
-                  >
-                    🎁 {prize}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-2 justify-center">
+                {machine.prizes_array.map((prize, index) => {
+                  const prizeEmoji = getPrizeEmoji(prize)
+                  const colors = ['prize-badge-pink', 'prize-badge-blue', 'prize-badge-purple', 'prize-badge-green']
+                  const badgeClass = colors[index % colors.length]
+                  return (
+                    <span 
+                      key={index}
+                      className={`prize-badge ${badgeClass}`}
+                    >
+                      <span>{prizeEmoji}</span>
+                      <span>{prize}</span>
+                    </span>
+                  )
+                })}
               </div>
             </div>
             

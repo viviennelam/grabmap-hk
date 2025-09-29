@@ -1,31 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-arcade-pink/10 to-arcade-blue/10 min-h-screen;
+    @apply bg-retro-bg min-h-screen text-retro-text font-sans;
+    line-height: 1.5;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-retro font-bold;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  
+  h1 {
+    @apply text-4xl;
+  }
+  
+  h2 {
+    @apply text-2xl;
+  }
+  
+  h3 {
+    @apply text-xl;
+  }
+  
+  p, span, div {
+    @apply font-sans font-normal;
+    line-height: 1.5;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-arcade-pink hover:bg-arcade-pink/90 text-white font-semibold py-2 px-4 rounded-full transition-all duration-200 transform hover:scale-105;
+    @apply bg-retro-pink hover:bg-retro-pink/90 text-retro-text font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-retro;
   }
   
   .btn-secondary {
-    @apply bg-arcade-blue hover:bg-arcade-blue/90 text-white font-semibold py-2 px-4 rounded-full transition-all duration-200 transform hover:scale-105;
+    @apply bg-retro-blue hover:bg-retro-blue/90 text-retro-text font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-retro-blue;
   }
   
-  .card {
-    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+  .retro-card {
+    @apply bg-retro-card rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-retro-hover/50 hover:bg-retro-hover;
+  }
+  
+  .retro-card-fixed {
+    @apply retro-card h-64 flex flex-col;
   }
   
   .input-field {
-    @apply w-full px-4 py-2 border-2 border-gray-200 rounded-xl focus:border-arcade-pink focus:outline-none transition-colors duration-200;
+    @apply w-full px-4 py-3 border-2 border-retro-hover rounded-lg focus:border-retro-pink focus:outline-none transition-colors duration-200 text-base bg-retro-card text-retro-text;
   }
   
-  .search-bar {
-    @apply bg-white rounded-full shadow-md px-6 py-3 flex items-center space-x-3;
+  .category-chip {
+    @apply bg-retro-card hover:bg-retro-hover text-retro-text px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 border border-retro-hover/50 whitespace-nowrap;
+  }
+  
+  .category-chip-active {
+    @apply bg-retro-pink text-retro-text shadow-retro;
+  }
+  
+  .prize-badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1;
+  }
+  
+  .prize-badge-pink {
+    @apply bg-retro-pink/20 text-retro-pink border border-retro-pink/30;
+  }
+  
+  .prize-badge-blue {
+    @apply bg-retro-blue/20 text-retro-blue border border-retro-blue/30;
+  }
+  
+  .prize-badge-purple {
+    @apply bg-retro-purple/20 text-retro-purple border border-retro-purple/30;
+  }
+  
+  .prize-badge-green {
+    @apply bg-retro-green/20 text-retro-green border border-retro-green/30;
+  }
+  
+  /* Animations */
+  @keyframes slide-in-from-top {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-in {
+    animation: slide-in-from-top 0.3s ease-out;
+  }
+  
+  /* Line clamping */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .btn-primary, .btn-secondary {
+      @apply py-3 px-5 text-sm min-h-[44px];
+    }
+    
+    .category-chip {
+      @apply px-3 py-2 text-sm min-h-[44px];
+    }
+    
+    .retro-card-fixed {
+      @apply h-auto min-h-[200px];
+    }
+    
+    .container {
+      @apply px-4;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .retro-card-fixed {
+      @apply h-72;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .retro-card-fixed {
+      @apply h-64;
+    }
   }
 }

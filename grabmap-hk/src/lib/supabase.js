@@ -58,17 +58,31 @@ export const winsService = {
 
   // Upload photo to storage
   async uploadPhoto(file, fileName) {
-    const { data, error } = await supabase.storage
-      .from('win-photos')
-      .upload(fileName, file)
-    
-    if (error) throw error
-    
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('win-photos')
-      .getPublicUrl(fileName)
-    
-    return publicUrl
+    try {
+      // First, try to upload the file
+      const { data, error } = await supabase.storage
+        .from('win-photos')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        })
+      
+      if (error) {
+        console.error('Storage upload error:', error)
+        throw error
+      }
+      
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('win-photos')
+        .getPublicUrl(fileName)
+      
+      console.log('Photo uploaded successfully:', publicUrl)
+      return publicUrl
+      
+    } catch (error) {
+      console.error('Photo upload failed:', error)
+      throw new Error(`Photo upload failed: ${error.message}`)
+    }
   }
 }
