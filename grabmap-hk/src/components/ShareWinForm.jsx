@@ -78,8 +78,19 @@ export default function ShareWinForm({ machineId, onWinSubmitted }) {
         } catch (photoError) {
           console.error('Photo upload failed:', photoError)
           setUploadStatus(`Photo upload failed: ${photoError.message}`)
-          // For now, let's use the preview URL as fallback for demo purposes
-          photoUrl = photoPreview
+          
+          // Ask user if they want to continue without photo
+          const continueWithoutPhoto = window.confirm(
+            `Photo upload failed: ${photoError.message}\n\nWould you like to share your win without the photo?`
+          )
+          
+          if (!continueWithoutPhoto) {
+            throw new Error('Submission cancelled. Please try again or contact support to set up photo storage.')
+          }
+          
+          // Continue without photo
+          photoUrl = null
+          setUploadStatus('Continuing without photo...')
         }
       }
 

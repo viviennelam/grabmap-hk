@@ -59,7 +59,7 @@ export const winsService = {
   // Upload photo to storage
   async uploadPhoto(file, fileName) {
     try {
-      // First, try to upload the file
+      // Upload the file directly
       const { data, error } = await supabase.storage
         .from('win-photos')
         .upload(fileName, file, {
