@@ -41,6 +41,8 @@ export default function ShareWinForm({ machineId, onWinSubmitted }) {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      console.log('Photo selected:', file.name, 'Size:', file.size, 'Type:', file.type)
+      
       setFormData(prev => ({
         ...prev,
         photo: file
@@ -48,8 +50,21 @@ export default function ShareWinForm({ machineId, onWinSubmitted }) {
 
       // Create preview
       const reader = new FileReader()
-      reader.onload = (e) => setPhotoPreview(e.target.result)
+      reader.onload = (e) => {
+        console.log('Preview created, length:', e.target.result.length)
+        setPhotoPreview(e.target.result)
+      }
+      reader.onerror = (e) => {
+        console.error('Failed to create preview:', e)
+      }
       reader.readAsDataURL(file)
+    } else {
+      console.log('No file selected')
+      setPhotoPreview(null)
+      setFormData(prev => ({
+        ...prev,
+        photo: null
+      }))
     }
   }
 
@@ -128,6 +143,12 @@ export default function ShareWinForm({ machineId, onWinSubmitted }) {
       setPhotoPreview(null)
       setUploadStatus('')
       setShowError(false)
+      
+      // Reset file input
+      const fileInput = document.getElementById('photo-upload')
+      if (fileInput) {
+        fileInput.value = ''
+      }
 
       // Show success message
       setShowSuccess(true)

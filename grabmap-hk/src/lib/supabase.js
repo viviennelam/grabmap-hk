@@ -56,33 +56,32 @@ export const winsService = {
     return data[0]
   },
 
-  // Upload photo to storage
+  // Convert photo to base64 and return data URL
   async uploadPhoto(file, fileName) {
     try {
-      // Upload the file directly
-      const { data, error } = await supabase.storage
-        .from('win-photos')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
-        })
+      console.log('Converting photo to base64:', fileName, 'File size:', file.size)
       
-      if (error) {
-        console.error('Storage upload error:', error)
-        throw error
-      }
-      
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('win-photos')
-        .getPublicUrl(fileName)
-      
-      console.log('Photo uploaded successfully:', publicUrl)
-      return publicUrl
+      // Convert file to base64 data URL
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        
+        reader.onload = () => {
+          const base64DataUrl = reader.result
+          console.log('Photo converted successfully, size:', base64DataUrl.length)
+          resolve(base64DataUrl)
+        }
+        
+        reader.onerror = () => {
+          console.error('Failed to read file')
+          reject(new Error('Failed to read photo file'))
+        }
+        
+        reader.readAsDataURL(file)
+      })
       
     } catch (error) {
-      console.error('Photo upload failed:', error)
-      throw new Error(`Photo upload failed: ${error.message}`)
+      console.error('Photo conversion failed:', error)
+      throw new Error(`Photo processing failed: ${error.message}`)
     }
   }
 }
