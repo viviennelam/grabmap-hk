@@ -107,6 +107,36 @@
     -webkit-line-clamp: 1;
   }
   
+  /* Image optimization utilities */
+  .win-photo-container {
+    @apply relative overflow-hidden rounded-xl border border-retro-hover bg-retro-card/50;
+  }
+  
+  .win-photo {
+    @apply w-full h-auto object-contain;
+    min-height: 160px;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    transition: object-fit 0.3s ease;
+  }
+  
+  .win-photo-portrait {
+    object-fit: contain !important;
+    height: auto !important;
+    max-height: 280px !important;
+  }
+  
+  .win-photo-landscape {
+    object-fit: cover !important;
+    height: 200px !important;
+  }
+  
+  .win-photo-square {
+    object-fit: cover !important;
+    height: 220px !important;
+  }
+
   /* Mobile optimizations */
   @media (max-width: 768px) {
     .btn-primary, .btn-secondary {
@@ -124,6 +154,14 @@
     .container {
       @apply px-4;
     }
+    
+    .win-photo {
+      max-height: 240px !important;
+    }
+    
+    .win-photo-portrait {
+      max-height: 260px !important;
+    }
   }
   
   @media (min-width: 768px) and (max-width: 1024px) {
@@ -136,5 +174,53 @@
     .retro-card-fixed {
       @apply h-64;
     }
+  }
+  
+  /* Header seamless flow */
+  .header-seamless {
+    background: linear-gradient(135deg, 
+      rgba(255, 45, 117, 0.3) 0%, 
+      rgba(0, 217, 255, 0.2) 50%, 
+      rgba(185, 103, 255, 0.25) 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .content-overlap {
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      rgba(15, 15, 26, 0.8) 20%, 
+      #0f0f1a 100%);
+  }
+  
+  /* Enhanced animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes glow-pulse {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(255, 45, 117, 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 40px rgba(255, 45, 117, 0.6), 0 0 60px rgba(0, 217, 255, 0.3);
+    }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  
+  /* Gradient text effect */
+  .gradient-text {
+    background: linear-gradient(135deg, #ff2d75, #00d9ff, #b967ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

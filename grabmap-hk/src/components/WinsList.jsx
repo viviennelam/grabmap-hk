@@ -1,4 +1,4 @@
-import { Calendar, User, Trophy, Star } from 'lucide-react'
+import { Trophy } from 'lucide-react'
 
 export default function WinsList({ wins }) {
   if (!wins || wins.length === 0) {
@@ -23,43 +23,77 @@ export default function WinsList({ wins }) {
           <div key={win.id} className="retro-card p-4">
             <div className="flex items-start space-x-3">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center space-x-2 mb-1">
-                  <span className="prize-badge prize-badge-green font-sans">
-                    {win.prize}
+                {/* Primary Info Line - Username and Date */}
+                <div className="flex items-center mb-3">
+                  <span className="text-lg font-bold text-retro-text">
+                    👤 {win.user_name || 'Anonymous'}
                   </span>
-                  {win.rating && (
-                    <div className="flex items-center text-retro-green text-xs">
-                      <Star className="w-3 h-3 fill-current mr-1" />
-                      <span>{win.rating}/5</span>
-                    </div>
-                  )}
+                  <span className="text-xs text-retro-text-secondary ml-2">
+                    • {new Date(win.created_at).toLocaleDateString()}
+                  </span>
                 </div>
                 
-                {win.user_name && (
-                  <div className="flex items-center text-sm text-retro-text-secondary mb-1 font-sans">
-                    <User className="w-4 h-4 mr-1" />
-                    <span>{win.user_name}</span>
-                  </div>
-                )}
-                
-                {win.comment && (
-                  <p className="text-retro-text text-sm mb-2 font-sans">{win.comment}</p>
-                )}
-                
+                {/* Photo - optimized for portrait photos */}
                 {win.photo_url && (
-                  <div className="mb-2">
+                  <div className="mb-3 win-photo-container">
                     <img 
                       src={win.photo_url} 
                       alt={win.prize}
-                      className="w-full max-w-xs h-32 object-cover rounded-lg border border-retro-hover"
+                      className="win-photo"
+                      onLoad={(e) => {
+                        // Dynamically adjust styling based on aspect ratio
+                        const img = e.target;
+                        const aspectRatio = img.naturalWidth / img.naturalHeight;
+                        
+                        // Remove any existing aspect ratio classes
+                        img.classList.remove('win-photo-portrait', 'win-photo-landscape', 'win-photo-square');
+                        
+                        if (aspectRatio < 0.8) {
+                          // Portrait photo - show more of the image without cropping
+                          img.classList.add('win-photo-portrait');
+                        } else if (aspectRatio > 1.5) {
+                          // Landscape photo - use cover but with controlled height
+                          img.classList.add('win-photo-landscape');
+                        } else {
+                          // Square-ish photo - balanced approach
+                          img.classList.add('win-photo-square');
+                        }
+                      }}
+                      onError={(e) => {
+                        // Handle broken images gracefully
+                        e.target.style.display = 'none';
+                        e.target.parentElement.style.display = 'none';
+                      }}
                     />
                   </div>
                 )}
                 
-                <div className="flex items-center text-xs text-retro-text-secondary font-sans">
-                  <Calendar className="w-3 h-3 mr-1" />
-                  <span>{new Date(win.created_at).toLocaleDateString()}</span>
-                </div>
+                {/* Prize Name - converted from badge to heading */}
+                <h4 className="text-sm font-semibold text-retro-blue mt-3 mb-2">
+                  {win.prize}
+                </h4>
+                
+                {/* Prize Description - repurposed comment field */}
+                {win.comment && (
+                  <p className="text-retro-text mb-3 font-sans" style={{ fontSize: '15px', lineHeight: '1.5' }}>
+                    {win.comment}
+                  </p>
+                )}
+                
+                {win.rating && (
+                  <div className="mb-2">
+                    <span className="text-sm text-retro-text mr-2">Fairness:</span>
+                    <div className="flex text-base" style={{ color: '#ffd700' }}>
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i}>
+                          {i < win.rating ? '⭐' : '☆'}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+
               </div>
             </div>
           </div>

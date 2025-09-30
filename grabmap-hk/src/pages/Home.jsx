@@ -86,21 +86,31 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-retro-pink to-retro-blue py-12 md:py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-retro font-bold mb-4 text-retro-text">
+      <div className="relative overflow-hidden py-16 md:py-20">
+        {/* Vibrant background gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-retro-pink/30 via-retro-blue/20 to-retro-purple/25"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-retro-bg/60 via-retro-bg/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-retro-green/10 to-transparent"></div>
+        
+        {/* Animated background elements */}
+        <div className="absolute top-8 left-10 w-24 h-24 bg-retro-pink/20 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-8 right-10 w-32 h-32 bg-retro-blue/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-retro-purple/15 rounded-full blur-2xl animate-pulse delay-500"></div>
+        
+        <div className="relative container mx-auto px-4 text-center z-10">
+          <h1 className="text-4xl md:text-6xl font-retro font-bold mb-4 text-retro-text drop-shadow-lg">
             GrabMap HK
           </h1>
-          <p className="text-lg md:text-xl text-retro-text/90 mb-2 font-sans">
+          <p className="text-lg md:text-xl text-retro-text/95 mb-2 font-sans drop-shadow-md">
             Find the best claw machines in Hong Kong!
           </p>
-          <p className="text-sm md:text-base text-retro-text/75 font-sans">
-            發現香港最好的夾公仔機！
+          <p className="text-sm md:text-base text-retro-text/85 font-sans drop-shadow-md">
+            夾公仔攻略大全
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 space-y-12">
+      <div className="container mx-auto px-4 py-8 space-y-10">
         {/* Featured Locations */}
         <section>
           <h2 className="text-2xl md:text-3xl font-retro font-bold text-retro-text mb-6">
